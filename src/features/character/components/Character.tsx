@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useCharacterStore } from "../store/character-store";
+import { CharacterAvatar } from "./CharacterAvatar";
 import { CurrencyPicker } from "@/features/preferences/components/CurrencyPicker";
 
 const DRAG_THRESHOLD_PX = 5;
@@ -75,9 +76,8 @@ export function Character({ children }: { children?: React.ReactNode }) {
             />
           </div>
         )}
-        <span className="text-5xl drop-shadow-md" aria-label="캐릭터">
-          🐣
-        </span>
+        <CharacterAvatar />
+        <span className="sr-only">캐릭터</span>
       </div>
       <CurrencyPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
     </>
