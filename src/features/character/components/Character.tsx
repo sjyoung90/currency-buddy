@@ -22,8 +22,8 @@ export function Character({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <div
-        className="fixed z-50 cursor-grab select-none rounded-2xl bg-white/90 p-3 shadow-lg backdrop-blur active:cursor-grabbing"
-        style={{ left: x, top: y }}
+        className="fixed z-50 flex select-none flex-col items-center"
+        style={{ left: x, top: y, cursor: dragging.current ? "grabbing" : "grab" }}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           dragging.current = {
@@ -58,7 +58,26 @@ export function Character({ children }: { children?: React.ReactNode }) {
           dragging.current = null;
         }}
       >
-        {children ?? <span className="text-2xl">🐣</span>}
+        {children && (
+          <div className="relative mb-5 rounded-2xl bg-white px-4 py-3 text-gray-900 shadow-xl">
+            {children}
+            <div
+              className="absolute left-1/2 -translate-x-1/2"
+              style={{
+                bottom: "-8px",
+                width: 0,
+                height: 0,
+                borderLeft: "8px solid transparent",
+                borderRight: "8px solid transparent",
+                borderTop: "8px solid white",
+              }}
+              aria-hidden
+            />
+          </div>
+        )}
+        <span className="text-5xl drop-shadow-md" aria-label="캐릭터">
+          🐣
+        </span>
       </div>
       <CurrencyPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
     </>

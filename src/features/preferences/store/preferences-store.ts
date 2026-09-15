@@ -17,7 +17,11 @@ export const usePreferences = create<PreferencesState>()(
     (set) => ({
       base: "USD",
       favorites: ["KRW", "JPY", "EUR"],
-      setBase: (code) => set({ base: code }),
+      setBase: (code) =>
+        set((state) => ({
+          base: code,
+          favorites: state.favorites.filter((c) => c !== code),
+        })),
       toggleFavorite: (code) =>
         set((state) => {
           if (state.favorites.includes(code)) {

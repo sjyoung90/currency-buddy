@@ -14,9 +14,10 @@ export default function Home() {
   return (
     <main className="flex flex-1 items-center justify-center p-8">
       <Character>
-        <div className="min-w-40 text-sm">
-          <div className="mb-1 font-semibold">
-            {baseInfo?.flag} {base} 기준
+        <div className="min-w-44 text-sm">
+          <div className="mb-1.5 flex items-center gap-1 font-semibold text-gray-900">
+            <span>{baseInfo?.flag}</span>
+            <span>{base} 기준</span>
           </div>
           {favorites.length === 0 ? (
             <div className="text-gray-500">
@@ -24,16 +25,26 @@ export default function Home() {
             </div>
           ) : (
             <>
-              {isLoading && <div>불러오는 중…</div>}
-              {error && <div className="text-red-500">에러</div>}
+              {isLoading && <div className="text-gray-600">불러오는 중…</div>}
+              {error && <div className="text-red-600">불러오기 실패</div>}
               {data && (
-                <ul className="space-y-0.5">
-                  {Object.entries(data.rates).map(([code, rate]) => (
-                    <li key={code}>
-                      {CURRENCY_BY_CODE[code]?.flag ?? ""} {code}:{" "}
-                      {rate.toFixed(2)}
-                    </li>
-                  ))}
+                <ul className="space-y-1">
+                  {favorites.map((code) => {
+                    const rate = data.rates[code];
+                    if (rate === undefined) return null;
+                    return (
+                      <li
+                        key={code}
+                        className="flex items-center justify-between gap-3 text-gray-800"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <span>{CURRENCY_BY_CODE[code]?.flag ?? ""}</span>
+                          <span className="font-medium">{code}</span>
+                        </span>
+                        <span className="tabular-nums">{rate.toFixed(2)}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </>
